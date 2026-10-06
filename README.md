@@ -46,6 +46,8 @@ The same URLs above apply. The frontend development server proxies `/api` reques
 
 Open the frontend and select **2026-10-01**. It is also the initial date in the committed demo data.
 
+Additional demo shifts are available on 2026-10-02 through 2026-10-04 for date-switching demonstration.
+
 Expected values:
 
 | Metric | Value |
