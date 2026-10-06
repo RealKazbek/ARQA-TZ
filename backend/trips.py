@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Literal
 
-from pydantic import AwareDatetime, BaseModel
+from pydantic import AwareDatetime, BaseModel, field_validator, model_validator
 
 
 class Trip(BaseModel):
@@ -11,6 +11,19 @@ class Trip(BaseModel):
     amount: int
     payment: Literal["cash", "card"]
     commission: int
+
+    @field_validator("amount")
+    @classmethod
+    def amount_must_be_positive(cls, amount: int) -> int:
+        if amount <= 0:
+            raise ValueError("amount must be greater than zero")
+        return amount
+
+    @model_validator(mode="after")
+    def end_must_be_after_start(self) -> "Trip":
+        if self.end <= self.start:
+            raise ValueError("end must be after start")
+        return self
 
 
 class DailySummary(BaseModel):

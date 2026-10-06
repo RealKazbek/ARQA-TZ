@@ -5,7 +5,7 @@
 - `frontend/`: React 18 single-page application built with Vite 5 and styled with Tailwind CSS.
 - `backend/`: FastAPI application with a read-only daily trips endpoint. Trip models and summary calculation live in `backend/trips.py`; JSON persistence lives in `backend/storage.py`.
 - `backend/data/trips.json`: small ARQA-format sample data set and repository-local storage location.
-- `tests/`: focused standard-library backend tests for summary and storage behavior.
+- `tests/`: focused backend and API tests for summary, storage, creation, validation, and retry behavior. `requirements-dev.txt` supplies the API test client dependency.
 - `docker-compose.yml`, `Dockerfile.backend`, `Dockerfile.frontend`, and `nginx.conf`: local containerized application setup.
 
 The repository uses a concrete JSON file, not a database. Do not introduce a database, cache, queue, remote service, or new deployment component unless the task explicitly requires it.

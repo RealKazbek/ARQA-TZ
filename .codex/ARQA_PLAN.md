@@ -297,9 +297,11 @@ Add the prescribed JSON data file, schemas, deterministic storage helpers, and p
 
 Completed on 2026-10-06. The read-only `GET /api/trips?date=YYYY-MM-DD` endpoint reads `backend/data/trips.json`, filters by the calendar date in the offset-aware `start` timestamp, and returns the required daily summary. The JSON sample is the two official example trips. Trip creation and idempotency are intentionally not implemented.
 
-### Phase 3 — Implement trip creation, validation, and idempotency
+### Phase 3 — Implement trip creation, validation, and idempotency — completed
 
 Implement the small create/list API contract. Add validation and duplicate/conflict tests using isolated file storage.
+
+Completed on 2026-10-06. `POST /api/trips` validates the canonical trip model and writes through the existing JSON storage. A new ID returns `201`; an exact retry with the same ID returns the existing trip with `200`; the same ID with different normalized fields returns `409` without overwriting the stored record. API-level tests use temporary JSON storage and do not modify the sample data.
 
 ### Phase 4 — Build the ARQA web client
 

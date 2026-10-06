@@ -16,6 +16,10 @@ class TripStorageError(RuntimeError):
     pass
 
 
+class TripConflictError(RuntimeError):
+    pass
+
+
 class TripStorage:
     def __init__(self, path: Path = DEFAULT_TRIPS_PATH) -> None:
         self.path = path
@@ -44,6 +48,20 @@ class TripStorage:
     def trips_for_day(self, selected_date: date) -> list[Trip]:
         # A trip belongs to the calendar date expressed in its start timestamp.
         return [trip for trip in self.read_trips() if trip.start.date() == selected_date]
+
+    def add_trip(self, trip: Trip) -> tuple[Trip, bool]:
+        trips = self.read_trips()
+
+        for existing_trip in trips:
+            if existing_trip.id != trip.id:
+                continue
+            if existing_trip.model_dump(mode="json") == trip.model_dump(mode="json"):
+                return existing_trip, False
+            raise TripConflictError("Trip ID already exists with different data")
+
+        trips.append(trip)
+        self.write_trips(trips)
+        return trip, True
 
     def write_trips(self, trips: Sequence[Trip]) -> None:
         serialized = json.dumps(
