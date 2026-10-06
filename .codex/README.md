@@ -2,7 +2,7 @@
 
 ## Current technology map
 
-- `frontend/`: React 18 single-page application built with Vite 5 and styled with Tailwind CSS.
+- `frontend/`: React 18 TypeScript single-page application built with Vite 5 and styled with Tailwind CSS. It contains the ARQA daily shift-diary view and a small API layer under `src/api/`.
 - `backend/`: FastAPI application with a read-only daily trips endpoint. Trip models and summary calculation live in `backend/trips.py`; JSON persistence lives in `backend/storage.py`.
 - `backend/data/trips.json`: small ARQA-format sample data set and repository-local storage location.
 - `tests/`: focused backend and API tests for summary, storage, creation, validation, and retry behavior. `requirements-dev.txt` supplies the API test client dependency.

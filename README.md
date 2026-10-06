@@ -2,7 +2,7 @@
 
 This repository is being prepared for the ARQA technical assignment.
 
-The current revision contains a minimal React/Vite frontend, a read-only FastAPI trip endpoint, JSON trip storage, and daily summary calculations. Trip creation, duplicate handling, and the final UI are intentionally deferred to subsequent implementation phases.
+The current revision contains a React/Vite shift-diary interface, FastAPI trip endpoints, JSON trip storage, and daily summary calculations. The frontend displays backend-provided trip and summary data for a selected day.
 
 ## Run locally
 

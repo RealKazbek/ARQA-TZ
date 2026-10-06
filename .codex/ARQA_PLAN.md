@@ -303,9 +303,11 @@ Implement the small create/list API contract. Add validation and duplicate/confl
 
 Completed on 2026-10-06. `POST /api/trips` validates the canonical trip model and writes through the existing JSON storage. A new ID returns `201`; an exact retry with the same ID returns the existing trip with `200`; the same ID with different normalized fields returns `409` without overwriting the stored record. API-level tests use temporary JSON storage and do not modify the sample data.
 
-### Phase 4 — Build the ARQA web client
+### Phase 4 — Build the ARQA web client — completed
 
-Implement one responsive, accessible shift-diary page: selected date control, daily summary, trip list, and creation form. Use the API module and handle loading, empty, success, and error states. No unrelated dashboard or product features.
+Implement one responsive, accessible shift-diary page: selected date control, daily summary, and trip list. Use the API module and handle loading, empty, success, and error states. No unrelated dashboard or product features.
+
+Completed on 2026-10-06. The frontend is a single typed React page with backend-driven date navigation, daily summary, payment split, responsive trip list, loading placeholders, an empty state, and a retryable error state. No trip-creation form was added because the assignment only requires the client to show the daily data and switch days.
 
 ### Phase 5 — Integrate and verify locally
 
