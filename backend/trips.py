@@ -1,10 +1,25 @@
 from datetime import date
 from typing import Literal
 
-from pydantic import AwareDatetime, BaseModel, field_validator, model_validator
+from pydantic import AwareDatetime, BaseModel, ConfigDict, field_validator, model_validator
 
 
 class Trip(BaseModel):
+    model_config = ConfigDict(
+        json_schema_extra={
+            "examples": [
+                {
+                    "id": "review-1",
+                    "start": "2026-10-02T10:00:00+05:00",
+                    "end": "2026-10-02T10:25:00+05:00",
+                    "amount": 2000,
+                    "payment": "card",
+                    "commission": 300,
+                }
+            ]
+        }
+    )
+
     id: str
     start: AwareDatetime
     end: AwareDatetime
