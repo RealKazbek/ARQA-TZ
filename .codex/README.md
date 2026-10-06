@@ -2,14 +2,12 @@
 
 ## Current technology map
 
-- `frontend/`: React 18 single-page application built with Vite 5 and styled with Tailwind CSS. API calls are centralized in `frontend/src/api/client.js`.
-- `backend/`: FastAPI application. `backend/main.py` currently defines HTTP routes and Pydantic request models; supporting data and batch-processing code lives in `backend/data/`.
-- `drivepulse_stress_model/`: local Python stress-model training and inference pipeline.
-- `earnings/earnings/`: local Python earnings-model training and inference pipeline.
-- `tests/data/`: sample CSV fixtures. Do not assume a test runner is configured merely because test-like files exist.
+- `frontend/`: React 18 single-page application built with Vite 5 and styled with Tailwind CSS.
+- `backend/`: minimal FastAPI application. `backend/main.py` currently exposes only an operational health endpoint.
+- `tests/`: reserved for the focused automated test suite added in a later phase.
 - `docker-compose.yml`, `Dockerfile.backend`, `Dockerfile.frontend`, and `nginx.conf`: local containerized application setup.
 
-The backend currently uses in-memory data stores. Do not introduce a database, cache, queue, remote service, or new deployment component unless the task explicitly requires it.
+The repository intentionally has no trip domain or storage implementation yet. Do not introduce a database, cache, queue, remote service, or new deployment component unless the task explicitly requires it.
 
 ## Guidance index
 

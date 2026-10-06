@@ -285,9 +285,11 @@ Add only meaningful contract coverage: selected-day filtering using `start`, val
 
 ## 10. Implementation phases
 
-### Phase 1 — Remove Driver Pulse scope and simplify
+### Phase 1 — Remove Driver Pulse scope and simplify — completed
 
 Remove the exact unrelated files/directories and dependencies above. Preserve the Vite/FastAPI/Docker baseline, then ensure it still has a minimal working skeleton. This is a reviewable cleanup commit.
+
+Completed on 2026-10-06. The legacy ML, prediction, stress, map, auth, goals, CSV, Streamlit, analytics, legacy deployment, and pseudo-test artifacts were removed. The backend now has only a health endpoint and the frontend is a temporary shell. The two Python dependency manifests were consolidated into the root `requirements.txt` because the remaining backend has one dependency set; no ARQA domain, storage, API, calculation, idempotency, or test behavior was added.
 
 ### Phase 2 — Establish ARQA domain, JSON storage, and calculations
 
