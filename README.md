@@ -129,28 +129,32 @@ curl -X POST http://localhost:8000/api/trips \
 
 For the interactive API contract and request example, use Swagger at http://localhost:8000/docs.
 
-## Railway Deployment
+## Render Deployment
 
-Create two services from this repository.
+Create two services from the `RealKazbek/ARQA-TZ` repository.
 
 ### Backend
 
-- Root directory: `/backend`
-- Railway supplies `PORT`; the container binds it on `0.0.0.0` automatically.
-- Add `TRIPS_FILE_PATH=/data/trips.json`.
-- Attach a Railway Volume at `/data`.
-- After generating the frontend domain, add `FRONTEND_ORIGIN=https://<frontend-domain>`.
-- Set the healthcheck path to `/api/health`, then generate a public domain for the API and Swagger.
+- Service type: **Web Service** with the Docker runtime.
+- Root directory: `/backend`; Render detects `Dockerfile` there.
+- Build command: none; the Dockerfile installs `requirements.txt`.
+- Start command: none; the Dockerfile runs Uvicorn on `0.0.0.0:$PORT`.
+- Set healthcheck path to `/api/health`, then use the generated public backend URL for the API and Swagger.
+- After generating the frontend domain, set `FRONTEND_ORIGIN=https://<frontend-domain>.onrender.com`.
 
-On its first start, the backend copies the committed seed dataset to `TRIPS_FILE_PATH` only when that file does not exist. Existing volume data is never overwritten on redeploy.
+`TRIPS_FILE_PATH` remains optional and defaults to the committed `backend/data/trips.json` dataset. Do not configure a persistent disk for the free demo.
 
 ### Frontend
 
-- Root directory: `/frontend`
-- Set the build variable `VITE_API_URL=https://<backend-domain>` using the backend public domain.
-- Generate a public domain after deployment.
+- Service type: **Static Site**.
+- Root directory: `/frontend`.
+- Build command: `npm ci && npm run build`.
+- Publish directory: `dist`.
+- Set the build variable `VITE_API_URL=https://<backend-domain>.onrender.com`.
 
 The frontend uses `VITE_API_URL` in production. Local Vite and Docker Compose leave it empty and continue to use their existing `/api` proxy.
+
+Render Free Web Service storage is ephemeral. A fresh deployment starts from the committed demo dataset; trips created with `POST /api/trips` are not guaranteed to survive redeploys.
 
 ## AI Usage
 
