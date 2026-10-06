@@ -20,6 +20,42 @@ class TripConflictError(RuntimeError):
     pass
 
 
+def configured_trips_path() -> Path:
+    configured_path = os.getenv("TRIPS_FILE_PATH")
+    return Path(configured_path) if configured_path else DEFAULT_TRIPS_PATH
+
+
+def initialize_trips_file(path: Path, seed_path: Path = DEFAULT_TRIPS_PATH) -> Path:
+    if path.exists():
+        return path
+
+    try:
+        seed_content = seed_path.read_text(encoding="utf-8")
+        seed_payload = json.loads(seed_content)
+        if not isinstance(seed_payload, list):
+            raise TripStorageError("Seed trip storage must contain a JSON array")
+        [Trip.model_validate(item) for item in seed_payload]
+    except FileNotFoundError as error:
+        raise TripStorageError("Seed trip storage is missing") from error
+    except json.JSONDecodeError as error:
+        raise TripStorageError("Seed trip storage contains invalid JSON") from error
+    except ValidationError as error:
+        raise TripStorageError("Seed trip storage contains an invalid trip") from error
+    except OSError as error:
+        raise TripStorageError("Unable to read seed trip storage") from error
+
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("x", encoding="utf-8") as trips_file:
+            trips_file.write(seed_content)
+    except FileExistsError:
+        pass
+    except OSError as error:
+        raise TripStorageError("Unable to initialize trip storage") from error
+
+    return path
+
+
 class TripStorage:
     def __init__(self, path: Path = DEFAULT_TRIPS_PATH) -> None:
         self.path = path

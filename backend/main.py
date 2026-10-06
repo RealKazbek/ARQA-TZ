@@ -1,8 +1,10 @@
+import os
 from datetime import date
 
 from fastapi import FastAPI, HTTPException, Response, status
+from fastapi.middleware.cors import CORSMiddleware
 
-from backend.storage import DEFAULT_TRIPS_PATH, TripConflictError, TripStorage
+from backend.storage import TripConflictError, TripStorage, configured_trips_path, initialize_trips_file
 from backend.trips import DailyTrips, Trip, calculate_daily_summary
 
 app = FastAPI(
@@ -13,7 +15,16 @@ app = FastAPI(
     ),
     version="0.1.0",
 )
-trip_storage = TripStorage(DEFAULT_TRIPS_PATH)
+frontend_origin = os.getenv("FRONTEND_ORIGIN")
+if frontend_origin:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[frontend_origin],
+        allow_methods=["GET", "POST"],
+        allow_headers=["Content-Type"],
+    )
+
+trip_storage = TripStorage(initialize_trips_file(configured_trips_path()))
 
 
 @app.get("/api/health", summary="Check API health")

@@ -27,7 +27,7 @@ In one terminal:
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
-python3 -m pip install -r requirements.txt -r requirements-dev.txt
+python3 -m pip install -r backend/requirements.txt -r backend/requirements-dev.txt
 python3 -m uvicorn backend.main:app --reload
 ```
 
@@ -128,6 +128,29 @@ curl -X POST http://localhost:8000/api/trips \
 ```
 
 For the interactive API contract and request example, use Swagger at http://localhost:8000/docs.
+
+## Railway Deployment
+
+Create two services from this repository.
+
+### Backend
+
+- Root directory: `/backend`
+- Railway supplies `PORT`; the container binds it on `0.0.0.0` automatically.
+- Add `TRIPS_FILE_PATH=/data/trips.json`.
+- Attach a Railway Volume at `/data`.
+- After generating the frontend domain, add `FRONTEND_ORIGIN=https://<frontend-domain>`.
+- Set the healthcheck path to `/api/health`, then generate a public domain for the API and Swagger.
+
+On its first start, the backend copies the committed seed dataset to `TRIPS_FILE_PATH` only when that file does not exist. Existing volume data is never overwritten on redeploy.
+
+### Frontend
+
+- Root directory: `/frontend`
+- Set the build variable `VITE_API_URL=https://<backend-domain>` using the backend public domain.
+- Generate a public domain after deployment.
+
+The frontend uses `VITE_API_URL` in production. Local Vite and Docker Compose leave it empty and continue to use their existing `/api` proxy.
 
 ## AI Usage
 

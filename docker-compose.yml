@@ -3,16 +3,19 @@ name: driver-shift-diary
 services:
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile.backend
+      context: ./backend
     ports:
       - "8000:8000"
 
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-}
     ports:
       - "5173:80"
+    environment:
+      PORT: 80
+      API_PROXY_TARGET: http://backend:8000
     depends_on:
       - backend
