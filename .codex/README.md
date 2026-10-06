@@ -3,11 +3,12 @@
 ## Current technology map
 
 - `frontend/`: React 18 single-page application built with Vite 5 and styled with Tailwind CSS.
-- `backend/`: minimal FastAPI application. `backend/main.py` currently exposes only an operational health endpoint.
-- `tests/`: reserved for the focused automated test suite added in a later phase.
+- `backend/`: FastAPI application with a read-only daily trips endpoint. Trip models and summary calculation live in `backend/trips.py`; JSON persistence lives in `backend/storage.py`.
+- `backend/data/trips.json`: small ARQA-format sample data set and repository-local storage location.
+- `tests/`: focused standard-library backend tests for summary and storage behavior.
 - `docker-compose.yml`, `Dockerfile.backend`, `Dockerfile.frontend`, and `nginx.conf`: local containerized application setup.
 
-The repository intentionally has no trip domain or storage implementation yet. Do not introduce a database, cache, queue, remote service, or new deployment component unless the task explicitly requires it.
+The repository uses a concrete JSON file, not a database. Do not introduce a database, cache, queue, remote service, or new deployment component unless the task explicitly requires it.
 
 ## Guidance index
 

@@ -291,9 +291,11 @@ Remove the exact unrelated files/directories and dependencies above. Preserve th
 
 Completed on 2026-10-06. The legacy ML, prediction, stress, map, auth, goals, CSV, Streamlit, analytics, legacy deployment, and pseudo-test artifacts were removed. The backend now has only a health endpoint and the frontend is a temporary shell. The two Python dependency manifests were consolidated into the root `requirements.txt` because the remaining backend has one dependency set; no ARQA domain, storage, API, calculation, idempotency, or test behavior was added.
 
-### Phase 2 — Establish ARQA domain, JSON storage, and calculations
+### Phase 2 — Establish ARQA domain, JSON storage, and calculations — completed
 
 Add the prescribed JSON data file, schemas, deterministic storage helpers, and pure daily-summary service. Add summary unit tests before exposing the full UI.
+
+Completed on 2026-10-06. The read-only `GET /api/trips?date=YYYY-MM-DD` endpoint reads `backend/data/trips.json`, filters by the calendar date in the offset-aware `start` timestamp, and returns the required daily summary. The JSON sample is the two official example trips. Trip creation and idempotency are intentionally not implemented.
 
 ### Phase 3 — Implement trip creation, validation, and idempotency
 
@@ -319,4 +321,5 @@ Each phase must leave the repository buildable and independently reviewable; com
 - The assignment example includes `id`, but the create request contract and duplicate response status are not prescribed. Requiring a client-supplied ID and treating exact same-ID payloads as successful retries is the smallest explicit idempotency design. Same-ID/different-payload `409` is a protective implementation choice.
 - It does not define which timestamp determines a day when a trip crosses midnight. The proposed consistent rule is the date of `start`; document it in the README unless ARQA clarifies otherwise.
 - It does not specify allowed commission values, currency precision, rounding, sorting order, or timezone display behavior. Preserve supplied numeric values, avoid additional formulas, and sort/display explicitly only if needed for comprehensible UI.
+- Monetary values are represented as integers because the supplied assignment data uses integer tenge and gives no fractional or rounding rules. Summary values are exact integer sums; no Money abstraction or commission percentage is introduced.
 - The current remote deployment and README expose legacy Driver Pulse material, including demo credentials. They are outside this planning task; Phase 1/6 must remove obsolete claims and ensure no credentials or secrets remain in the final submission documentation.

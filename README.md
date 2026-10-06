@@ -2,7 +2,7 @@
 
 This repository is being prepared for the ARQA technical assignment.
 
-The current revision contains a minimal React/Vite frontend, a FastAPI health endpoint, and Docker Compose configuration. The trip domain, storage, API, calculations, and final UI are intentionally deferred to subsequent implementation phases.
+The current revision contains a minimal React/Vite frontend, a read-only FastAPI trip endpoint, JSON trip storage, and daily summary calculations. Trip creation, duplicate handling, and the final UI are intentionally deferred to subsequent implementation phases.
 
 ## Run locally
 
